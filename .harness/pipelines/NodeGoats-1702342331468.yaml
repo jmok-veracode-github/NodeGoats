@@ -24,13 +24,33 @@ pipeline:
                     command: npm install
                   timeout: ""
                   type: Run
-              - step:
-                  identifier: npmtest
-                  name: npm_test
-                  spec:
-                    command: npm run test
-                  timeout: ""
-                  type: Run
+              - parallel:
+                  - step:
+                      identifier: npmtest
+                      name: npm_test
+                      spec:
+                        command: npm run test
+                      timeout: ""
+                      type: Run
+                  - step:
+                      type: Action
+                      name: veracode-pipeline-scan
+                      identifier: veracodepipelinescan
+                      spec:
+                        uses: veracode/Veracode-pipeline-scan-action@v1.0.10
+                        env:
+                          VERACODE_API_ID: 3fb18fc100754380af9266f00394b6c0
+                          VERACODE_API_KEY: 47a9f5fb8980dba03b176ee737a2707c1c0cb05a929f1156b7a7450534a97d25be16cacc3a62926cf8a531b5f74353624a994fc3e5e5b49122047f281422cf92
+                      description: Pipelinescan
+                  - step:
+                      type: Action
+                      name: Veracode SCA
+                      identifier: Veracode_SCA
+                      spec:
+                        uses: veracode/veracode-sca@v2.1.9
+                        env:
+                          SRCCLR_API_TOKEN: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAxNjYxLCJleHAiOjE3MDIzNTY4MDAsImF1dGhvcml0aWVzIjoiQUdFTlQiLCJqdGkiOiI1MzhkZDJjNC0zMDM3LTQ0NTctYTM5NC0zNzE3MjA5YTFhYjciLCJjbGllbnRfaWQiOiIiLCJzY29wZSI6W119.VWPX4M0EsMNUGZ8zZ0BepvaRUD853IuaDqptVINvR2LnMufWFtILbCclvBHh5ZFNVUXFJEjqVP0drHHtVUooNzIi28e-qQCBDXz0saN5lGD7QGvOd4wZ-oVSegB15TSFweIWTnwqGVVPdn7ByExZc87FDilM-JJmZvq5gvWKIrc
+                      description: Software Composition Analysis
               - step:
                   identifier: dockerbuild
                   name: docker_build
@@ -42,10 +62,19 @@ pipeline:
                       tags: latest
                   timeout: ""
                   type: Plugin
+              - step:
+                  type: Action
+                  name: "Veracode Static Analysis "
+                  identifier: Veracode_Static_Analysis
+                  spec:
+                    uses: veracode/veracode-uploadandscan-action@0.2.6
+                    env:
+                      VERACODE_API_ID: 3fb18fc100754380af9266f00394b6c0
+                      VERACODE_API_KEY: 47a9f5fb8980dba03b176ee737a2707c1c0cb05a929f1156b7a7450534a97d25be16cacc3a62926cf8a531b5f74353624a994fc3e5e5b49122047f281422cf92
           platform:
-            arch: Amd64
             os: Linux
+            arch: Amd64
           runtime:
-            spec: {}
             type: Cloud
+            spec: {}
         type: CI
