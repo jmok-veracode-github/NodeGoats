@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_jmok_veracode_github_NodeGoats_1702342341043-push-trigger-input-set
+  identifier: Build_jmok_veracode_github_NodeGoats_1702342341043pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_jmok_veracode_github_NodeGoats_1702342341043
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
