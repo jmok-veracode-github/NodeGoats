@@ -11,7 +11,7 @@ OWASP Top 10 for Node.js web applications:
 
 ### Do it!
 [A Vulnerable Node.js App for Ninjas](http://nodegoat.herokuapp.com/) to exploit, toast, and fix. You may like to [set up your own copy](#how-to-set-up-your-copy-of-nodegoat) of the app to fix and test vulnerabilities. Hint: Look for comments in the source code.
-##### Default user accounts
+##### Default user accounts   
 The database comes pre-populated with these user accounts created as part of the seed data -
 * Admin Account - u:admin p:Admin_123
 * User Accounts (u:user1 p:User1_123), (u:user2 p:User2_123)
